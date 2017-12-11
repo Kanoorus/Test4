@@ -23,7 +23,6 @@ public class Main {
     }
 
     private static void addCandyToGift() {
-        //boolean isEnd = true;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             int id;
@@ -61,6 +60,7 @@ public class Main {
                 }
                 System.out.println("Добавить еще сладость?(Да/Нет)");
                 if (!br.readLine().equalsIgnoreCase("да"))
+                    br.close();
                     break;
             } catch (Exception e) {
                 System.out.println("Не верно введен параметр.Сладость не добавлена. Начните сначала.");
