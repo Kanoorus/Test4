@@ -28,32 +28,31 @@ public class Main {
     }
 
     private static void addCandyToGift() {
-        boolean isEnd = true;
-        while (isEnd) {
+        //boolean isEnd = true;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
             int id;
+            int candyTipe;
             String name;
+            String answer;
             double price;
             double mass;
-            int candyTipe;
-            BufferedReader a;
-            //BufferedReader a = new BufferedReader(new InputStreamReader(System.in));
-            //String a2 = a.readLine();
             try {
                 System.out.println("Выберите слодость (1-мармелад, 2-щербее, 3-козинак, 4-халва):");
                 //candyTipe = scanner.nextInt();
-                candyTipe = Integer.parseInt(scanner.nextLine());
+                candyTipe = Integer.parseInt(br.readLine());
                 System.out.println("Укажите название сладости:");
                 // name = scanner.nextLine();
-                a = new BufferedReader(new InputStreamReader(System.in));
-                name = a.readLine();
+                //a = new BufferedReader(new InputStreamReader(System.in));
+                name = br.readLine();
                 System.out.println("Укажите цену:");
                 // price = scanner.nextDouble();
-                price = Double.parseDouble(scanner.nextLine());
+                price = Double.parseDouble(br.readLine());
                 System.out.println("Укажите массы сладости:");
                 //  mass = scanner.nextDouble();
-                mass = Double.parseDouble(scanner.nextLine());
+                mass = Double.parseDouble(br.readLine());
                 System.out.println("Укажите уникальный номер сладости:");
-                id = Integer.parseInt(scanner.nextLine());
+                id = Integer.parseInt(br.readLine());
             } catch (Exception e) {
                 System.out.println("Не верно введен параметр.Сладость не добавлена. Начните сначала.");
                 continue;
@@ -76,15 +75,15 @@ public class Main {
                     System.out.println("Не верно веден тип сладости");
                     continue;
             }
-            /*System.out.println("Добавить еще сладость?(Да/Нет)");
-            String answer = scanner.next();
+            System.out.println("Добавить еще сладость?(Да/Нет)");
+            answer = br.readLine();
             if (!answer.equalsIgnoreCase("да"))
                 break;
-*/
-            System.out.println("Добавить еще сладость?(1 - Да/ 2 - Нет)");
+
+            /*System.out.println("Добавить еще сладость?(1 - Да/ 2 - Нет)");
             int answer = scanner.nextInt();
             if (answer != 1)
-                break;
+                break;*/
         }
     }
 }
