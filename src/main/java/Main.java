@@ -4,21 +4,56 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Main {
     private static List<Candy> gift = new ArrayList<Candy>();
 
-    public static void main(String[] args) throws IOException {
-        addCandyToGift();
-        double summMass = 0;
-        double summPrice = 0;
-        for (Candy el : gift) {
-            summMass += el.getMass();
-            summPrice += el.getPrice();
-        }
-        System.out.println("Общая сумма подарка: " + summPrice + "\nОбщая масса подарка: " + summMass);
-        for (Candy el : gift) {
-            System.out.println(el.toString());
+    public static void main(String[] args) {
+        mainMenu();
+    }
 
+    private static void mainMenu() {
+        BufferedReader brr = new BufferedReader(new InputStreamReader(System.in));
+        int menyTipe;
+        boolean cicle = true;
+        while (cicle) {
+            try {
+                System.out.println("Выберете пункт меню(1 - Добавление/Формирование сладости в подарки, " +
+                        "2 - Вывод списка сладостей в подарке, 3 - Удаление сладости из подарка)");
+                menyTipe = Integer.parseInt(brr.readLine());
+                switch (menyTipe) {
+                    case 1:
+                        addCandyToGift();
+                        break;
+                    case 2:
+                        if (gift.isEmpty()) {
+                            System.out.println("Список сладостей пуст");
+                        } else {
+                            printGift(gift);
+                        }
+                        break;
+                    case 3:
+                        if (gift.isEmpty()) {
+                            System.out.println("Список сладостей пуст");
+                        } else {
+                            delCandyFromGift(gift);
+                        }
+                        break;
+                    default:
+                        System.out.println("Введен не верный пунк меню");
+                        continue;
+                }
+                System.out.println("Выбрать другой пункт меню? (Да/Нет)");
+                String answer = brr.readLine();
+                if (!answer.equalsIgnoreCase("да")) {
+                    cicle = false;
+                }
+            } catch (NumberFormatException e) {
+                mainMenu();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -59,13 +94,48 @@ public class Main {
                         continue;
                 }
                 System.out.println("Добавить еще сладость?(Да/Нет)");
-                if (!br.readLine().equalsIgnoreCase("да"))
-                    br.close();
+                if (!br.readLine().equalsIgnoreCase("да")) {
                     break;
+                }
             } catch (Exception e) {
                 System.out.println("Не верно введен параметр.Сладость не добавлена. Начните сначала.");
-                continue;
+                addCandyToGift();
             }
         }
+    }
+
+    private static void delCandyFromGift(List<Candy> delCandy) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            try {
+                System.out.println("Введите уникальный номер удаляемой сладости :");
+                int idCandy = Integer.parseInt(br.readLine());
+                int tempID = -1;
+                for (int i = 0; i < delCandy.size(); i++) {
+                    if (delCandy.get(i).getId() == idCandy) tempID = i;
+                }
+                delCandy.remove(tempID);
+                System.out.println("Удалить еще сладость?(Да/Нет)");
+                if (!br.readLine().equalsIgnoreCase("да")) {
+                    break;
+                }
+
+            } catch (Exception e) {
+                System.out.println("Введен не корректный уникальный номер сладости");
+            }
+
+
+        }
+    }
+
+    private static void printGift(List<Candy> printList) {
+        double summMass = 0;
+        double summPrice = 0;
+        for (Candy el : printList) {
+            summMass += el.getMass();
+            summPrice += el.getPrice();
+        }
+        System.out.println("Общая сумма подарка: " + summPrice + "\nОбщая масса подарка: " + summMass);
+        for (Candy el : printList) System.out.println(el.toString());
     }
 }
