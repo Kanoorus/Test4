@@ -104,6 +104,7 @@ public class Main {
         }
     }
 
+    
     private static void delCandyFromGift(List<Candy> delCandy) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
