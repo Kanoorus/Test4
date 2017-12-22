@@ -4,16 +4,18 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class Main {
     private static List<Candy> gift = new ArrayList<Candy>();
+
+    public static List<Candy> getGift() {
+        return gift;
+    }
 
     public static void main(String[] args) {
         mainMenu();
     }
 
-    private static void mainMenu() {
+    public static void mainMenu() {
         BufferedReader brr = new BufferedReader(new InputStreamReader(System.in));
         int menyTipe;
         boolean cicle = true;
@@ -50,6 +52,7 @@ public class Main {
                     cicle = false;
                 }
             } catch (NumberFormatException e) {
+                System.out.println("Введен не корректный номер меню");
                 mainMenu();
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -57,7 +60,7 @@ public class Main {
         }
     }
 
-    private static void addCandyToGift() {
+    public static void addCandyToGift() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             int id;
@@ -72,22 +75,34 @@ public class Main {
                 name = br.readLine();
                 System.out.println("Укажите цену:");
                 price = Double.parseDouble(br.readLine());
+                if (price < 0) {
+                    System.out.println("Введена отрицательная цена сладости");
+                    break;
+                }
                 System.out.println("Укажите массы сладости:");
                 mass = Double.parseDouble(br.readLine());
+                if (mass <= 0) {
+                    System.out.println("Введена отрицательная или нулевая масса сладости");
+                    break;
+                }
                 System.out.println("Укажите уникальный номер сладости:");
                 id = Integer.parseInt(br.readLine());
+                if (id < 0) {
+                    System.out.println("Введена отрицательный уникальный номер сладости");
+                    break;
+                }
                 switch (candyTipe) {
                     case 1:
-                        gift.add(new Marmalade(price, mass, name, id));
+                        addCFG(gift, new Marmalade(price, mass, name, id));
                         break;
                     case 2:
-                        gift.add(new Sherbet(price, mass, name, id));
+                        addCFG(gift, new Sherbet(price, mass, name, id));
                         break;
                     case 3:
-                        gift.add(new Kozinak(price, mass, name, id));
+                        addCFG(gift, new Kozinak(price, mass, name, id));
                         break;
                     case 4:
-                        gift.add(new Halva(price, mass, name, id));
+                        addCFG(gift, new Halva(price, mass, name, id));
                         break;
                     default:
                         System.out.println("Не верно веден тип сладости");
@@ -104,23 +119,21 @@ public class Main {
         }
     }
 
+    public static void addCFG(List<Candy> gift, Candy candiAdd) {
+        gift.add(candiAdd);
+        //return gift;
+    }
 
-    private static void delCandyFromGift(List<Candy> delCandy) {
+    public static void delCandyFromGift(List<Candy> delCandy) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             try {
                 System.out.println("Введите уникальный номер удаляемой сладости :");
-                int idCandy = Integer.parseInt(br.readLine());
-                int tempID = -1;
-                for (int i = 0; i < delCandy.size(); i++) {
-                    if (delCandy.get(i).getId() == idCandy) tempID = i;
-                }
-                delCandy.remove(tempID);
+                delCFG(delCandy, Integer.parseInt(br.readLine()));
                 System.out.println("Удалить еще сладость?(Да/Нет)");
                 if (!br.readLine().equalsIgnoreCase("да")) {
                     break;
                 }
-
             } catch (Exception e) {
                 System.out.println("Введен не корректный уникальный номер сладости");
             }
@@ -129,7 +142,17 @@ public class Main {
         }
     }
 
-    private static void printGift(List<Candy> printList) {
+    public static void delCFG(List<Candy> list, int numToRemove) {
+        int idCandy = numToRemove;
+        int tempID = -1;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId() == idCandy) tempID = i;
+        }
+        if (tempID!=-1)list.remove(tempID);
+        //return list;
+    }
+
+    public static void printGift(List<Candy> printList) {
         double summMass = 0;
         double summPrice = 0;
         for (Candy el : printList) {
