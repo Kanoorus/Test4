@@ -1,21 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
-    private static List<Candy> gift = new ArrayList<Candy>();
-
-    public static List<Candy> getGift() {
-        return gift;
-    }
 
     public static void main(String[] args) {
         mainMenu();
     }
 
-    public static void mainMenu() {
+    private static void mainMenu() {
+        Present myPresent = new Present();
         BufferedReader brr = new BufferedReader(new InputStreamReader(System.in));
         int menyTipe;
         boolean cicle = true;
@@ -26,20 +20,20 @@ public class Main {
                 menyTipe = Integer.parseInt(brr.readLine());
                 switch (menyTipe) {
                     case 1:
-                        addCandyToGift();
+                        addCandyToGift(myPresent);
                         break;
                     case 2:
-                        if (gift.isEmpty()) {
+                        if (myPresent.isEmpty()) {
                             System.out.println("Список сладостей пуст");
                         } else {
-                            printGift(gift);
+                            myPresent.print();
                         }
                         break;
                     case 3:
-                        if (gift.isEmpty()) {
+                        if (myPresent.isEmpty()) {
                             System.out.println("Список сладостей пуст");
                         } else {
-                            delCandyFromGift(gift);
+                            delCandyFromGift(myPresent);
                         }
                         break;
                     default:
@@ -60,17 +54,16 @@ public class Main {
         }
     }
 
-    public static void addCandyToGift() {
+    private static void addCandyToGift(Present myPresent) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-            int id;
-            int candyTipe;
+            int candyType;
             String name;
             double price;
             double mass;
             try {
                 System.out.println("Выберите слодость (1-мармелад, 2-щербее, 3-козинак, 4-халва):");
-                candyTipe = Integer.parseInt(br.readLine());
+                candyType = Integer.parseInt(br.readLine());
                 System.out.println("Укажите название сладости:");
                 name = br.readLine();
                 System.out.println("Укажите цену:");
@@ -85,24 +78,18 @@ public class Main {
                     System.out.println("Введена отрицательная или нулевая масса сладости");
                     break;
                 }
-                System.out.println("Укажите уникальный номер сладости:");
-                id = Integer.parseInt(br.readLine());
-                if (id < 0) {
-                    System.out.println("Введена отрицательный уникальный номер сладости");
-                    break;
-                }
-                switch (candyTipe) {
+                switch (candyType) {
                     case 1:
-                        addCFG(gift, new Marmalade(price, mass, name, id));
+                        myPresent.addCandyToMy(new Marmalade(price, mass, name));
                         break;
                     case 2:
-                        addCFG(gift, new Sherbet(price, mass, name, id));
+                        myPresent.addCandyToMy(new Sherbet(price, mass, name));
                         break;
                     case 3:
-                        addCFG(gift, new Kozinak(price, mass, name, id));
+                        myPresent.addCandyToMy(new Kozinak(price, mass, name));
                         break;
                     case 4:
-                        addCFG(gift, new Halva(price, mass, name, id));
+                        myPresent.addCandyToMy(new Halva(price, mass, name));
                         break;
                     default:
                         System.out.println("Не верно веден тип сладости");
@@ -114,22 +101,17 @@ public class Main {
                 }
             } catch (Exception e) {
                 System.out.println("Не верно введен параметр.Сладость не добавлена. Начните сначала.");
-                addCandyToGift();
+                addCandyToGift(myPresent);
             }
         }
     }
 
-    public static void addCFG(List<Candy> gift, Candy candiAdd) {
-        gift.add(candiAdd);
-        //return gift;
-    }
-
-    public static void delCandyFromGift(List<Candy> delCandy) {
+    private static void delCandyFromGift(Present myPresent) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             try {
                 System.out.println("Введите уникальный номер удаляемой сладости :");
-                delCFG(delCandy, Integer.parseInt(br.readLine()));
+                myPresent.dellCandyInMy(Integer.parseInt(br.readLine()));
                 System.out.println("Удалить еще сладость?(Да/Нет)");
                 if (!br.readLine().equalsIgnoreCase("да")) {
                     break;
@@ -137,29 +119,6 @@ public class Main {
             } catch (Exception e) {
                 System.out.println("Введен не корректный уникальный номер сладости");
             }
-
-
         }
-    }
-
-    public static void delCFG(List<Candy> list, int numToRemove) {
-        int idCandy = numToRemove;
-        int tempID = -1;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getId() == idCandy) tempID = i;
-        }
-        if (tempID!=-1)list.remove(tempID);
-        //return list;
-    }
-
-    public static void printGift(List<Candy> printList) {
-        double summMass = 0;
-        double summPrice = 0;
-        for (Candy el : printList) {
-            summMass += el.getMass();
-            summPrice += el.getPrice();
-        }
-        System.out.println("Общая сумма подарка: " + summPrice + "\nОбщая масса подарка: " + summMass);
-        for (Candy el : printList) System.out.println(el.toString());
     }
 }

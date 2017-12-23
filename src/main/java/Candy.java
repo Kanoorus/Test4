@@ -4,11 +4,11 @@ public abstract class Candy{
     private String name;
     private int id;
 
-    public Candy(double price, double mass, String name, int id) {
+    public Candy(double price, double mass, String name) {
         this.price = price;
         this.mass = mass;
         this.name = name;
-        this.id = id;
+
     }
 
     public double getPrice() {
@@ -26,9 +26,12 @@ public abstract class Candy{
     public int getId() {
         return id;
     }
+    public void setId(int id){
+        this.id = id;
+    }
 
     @Override
     public String toString() {
-        return "Назнавиние: "+name+" Масса: "+mass+" Цена: "+price;
+        return "ID "+ id+ " Назнавиние: "+name+" Масса: "+mass+" Цена: "+price;
     }
 }
