@@ -1,4 +1,6 @@
-public abstract class Candy{
+import java.io.Serializable;
+
+public abstract class Candy implements Serializable{
     private double price;
     private double mass;
     private String name;

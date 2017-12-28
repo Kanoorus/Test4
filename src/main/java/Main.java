@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 public class Main {
 
@@ -9,14 +10,16 @@ public class Main {
     }
 
     private static void mainMenu() {
+        String defaultPath = "C:/Present/";
+        String defaultName = String.valueOf(new Random().nextInt(1000))+".present";
         Present myPresent = new Present();
         BufferedReader brr = new BufferedReader(new InputStreamReader(System.in));
         int menyTipe;
         boolean cicle = true;
         while (cicle) {
             try {
-                System.out.println("Выберете пункт меню(1 - Добавление/Формирование сладости в подарки, " +
-                        "2 - Вывод списка сладостей в подарке, 3 - Удаление сладости из подарка)");
+                System.out.println("Выберете пункт меню:\n1 - Добавление/Формирование сладости в подарки, " +
+                        "2 - Вывод списка сладостей в подарке, 3 - Удаление сладости из подарка), 4 - Записать в файл, 5 - Загрузить из файла");
                 menyTipe = Integer.parseInt(brr.readLine());
                 switch (menyTipe) {
                     case 1:
@@ -35,6 +38,15 @@ public class Main {
                         } else {
                             delCandyFromGift(myPresent);
                         }
+                        break;
+                    case 4:
+                        myPresent.writeToFile(defaultPath+defaultName);
+                        System.out.println("Данные сохранены в файл "+ defaultName);
+                        break;
+                    case 5:
+                        System.out.println("Введите имя файла .present находящегося в каталоге С:/Present/");
+                        myPresent.readFromFile(defaultPath+brr.readLine()+".present");
+                        myPresent.print();
                         break;
                     default:
                         System.out.println("Введен не верный пунк меню");

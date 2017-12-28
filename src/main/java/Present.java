@@ -1,7 +1,8 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Present {
+public class Present implements Serializable {
     private List<Candy> gift;
     private int id;
 
@@ -31,7 +32,7 @@ public class Present {
         id++;
         candy.setId(id);
         gift.add(candy);
-        System.out.println("Добавлен: "+ candy);
+        System.out.println("Добавлен: " + candy);
     }
 
     public void dellCandyInMy(int id) {
@@ -60,5 +61,33 @@ public class Present {
 
     public boolean isEmpty() {
         return gift.isEmpty();
+    }
+
+    public void writeToFile(String path) {
+        try {
+            FileOutputStream fos = new FileOutputStream(path);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private List<Candy> getList (){
+        return gift;
+    }
+
+    public void readFromFile(String path) {
+        try {
+            FileInputStream fis = new FileInputStream(path);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            this.gift=((Present)ois.readObject()).getList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
